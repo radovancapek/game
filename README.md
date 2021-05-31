@@ -1,5 +1,13 @@
 # Game
 
+## Spuštění
+
+Stáhnout game.exe a spustit
+
+nebo
+
+Stáhnout ICP.jar a ICP.bat a spustit ICP.bat
+
 ## Průběh hry
 
 Cílem hry je zabít co nejvíce monster, která sledují hráče. Hráč začíná s 10 náboji a další může najít v bednách rozmístěných po mapě.

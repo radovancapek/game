@@ -44,7 +44,7 @@ public class InstancedMesh extends Mesh {
 
 
     public InstancedMesh(float[] positions, float[] textCoords, float[] normals, int[] indices, int numInstances) {
-        super(positions, textCoords, normals, indices, Mesh.createEmptyIntArray(Mesh.MAX_WEIGHTS * positions.length / 3, 0), Mesh.createEmptyFloatArray(Mesh.MAX_WEIGHTS * positions.length / 3, 0));
+        super(positions, textCoords, normals, indices);
 
         this.numInstances = numInstances;
 

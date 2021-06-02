@@ -129,14 +129,8 @@ public class Renderer {
         sceneShaderProgram.createDirectionalLightUniform("directionalLight");
         sceneShaderProgram.createFogUniform("fog");
 
-        // Create uniforms for shadow mapping
-        sceneShaderProgram.createUniform("shadowMap");
         sceneShaderProgram.createUniform("orthoProjectionMatrix");
         sceneShaderProgram.createUniform("modelLightViewNonInstancedMatrix");
-        sceneShaderProgram.createUniform("renderShadow");
-
-        // Create uniform for joint matrices
-        sceneShaderProgram.createUniform("jointsMatrix");
 
         sceneShaderProgram.createUniform("isInstanced");
         sceneShaderProgram.createUniform("numCols");
@@ -244,8 +238,6 @@ public class Renderer {
         sceneShaderProgram.setUniform("fog", scene.getFog());
         sceneShaderProgram.setUniform("texture_sampler", 0);
         sceneShaderProgram.setUniform("normalMap", 1);
-        sceneShaderProgram.setUniform("shadowMap", 2);
-        sceneShaderProgram.setUniform("renderShadow", scene.isRenderShadows() ? 1 : 0);
 
         renderNonInstancedMeshes(scene, sceneShaderProgram, viewMatrix, lightViewMatrix);
 

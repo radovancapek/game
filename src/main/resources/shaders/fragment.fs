@@ -68,8 +68,6 @@ uniform PointLight pointLights[MAX_POINT_LIGHTS];
 uniform SpotLight spotLights[MAX_SPOT_LIGHTS];
 uniform DirectionalLight directionalLight;
 uniform Fog fog;
-uniform sampler2D shadowMap;
-uniform int renderShadow;
 
 vec4 ambientC;
 vec4 diffuseC;
@@ -169,38 +167,6 @@ vec3 calcNormal(Material material, vec3 normal, vec2 text_coord, mat4 modelViewM
     return newNormal;
 }
 
-float calcShadow(vec4 position)
-{
-    if ( renderShadow == 0 )
-    {
-        return 1.0;
-    }
-
-    vec3 projCoords = position.xyz;
-    // Transform from screen coordinates to texture coordinates
-    projCoords = projCoords * 0.5 + 0.5;
-    float bias = 0.05;
-
-    float shadowFactor = 0.0;
-    vec2 inc = 1.0 / textureSize(shadowMap, 0);
-    for(int row = -1; row <= 1; ++row)
-    {
-        for(int col = -1; col <= 1; ++col)
-        {
-            float textDepth = texture(shadowMap, projCoords.xy + vec2(row, col) * inc).r;
-            shadowFactor += projCoords.z - bias > textDepth ? 1.0 : 0.0;
-        }
-    }
-    shadowFactor /= 9.0;
-
-    if(projCoords.z > 1.0)
-    {
-        shadowFactor = 1.0;
-    }
-
-    return 1 - shadowFactor;
-}
-
 void main()
 {
     setupColours(material, outTexCoord);
@@ -225,8 +191,7 @@ void main()
         }
     }
 
-    float shadow = calcShadow(mlightviewVertexPos);
-    fragColor = clamp(ambientC * vec4(ambientLight, 1) + diffuseSpecularComp * shadow, 0, 1);
+    fragColor = clamp(ambientC * vec4(ambientLight, 1) + diffuseSpecularComp, 0, 1);
 
     if ( fog.activeFog == 1 )
     {

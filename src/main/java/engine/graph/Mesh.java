@@ -50,14 +50,8 @@ public class Mesh {
     private FloatBuffer vecNormalsBuffer = null;
 
     public Mesh(float[] positions, float[] textCoords, float[] normals, int[] indices) {
-        this(positions, textCoords, normals, indices, Mesh.createEmptyIntArray(Mesh.MAX_WEIGHTS * positions.length / 3, 0), Mesh.createEmptyFloatArray(Mesh.MAX_WEIGHTS * positions.length / 3, 0));
-    }
-
-    public Mesh(float[] positions, float[] textCoords, float[] normals, int[] indices, int[] jointIndices, float[] weights) {
         FloatBuffer posBuffer = null;
         FloatBuffer textCoordsBuffer = null;
-        FloatBuffer weightsBuffer = null;
-        IntBuffer jointIndicesBuffer = null;
         IntBuffer indicesBuffer = null;
         try {
             vertexCount = indices.length;
@@ -101,26 +95,6 @@ public class Mesh {
             glEnableVertexAttribArray(2);
             glVertexAttribPointer(2, 3, GL_FLOAT, false, 0, 0);
 
-            // Weights
-            vboId = glGenBuffers();
-            vboIdList.add(vboId);
-            weightsBuffer = MemoryUtil.memAllocFloat(weights.length);
-            weightsBuffer.put(weights).flip();
-            glBindBuffer(GL_ARRAY_BUFFER, vboId);
-            glBufferData(GL_ARRAY_BUFFER, weightsBuffer, GL_STATIC_DRAW);
-            glEnableVertexAttribArray(3);
-            glVertexAttribPointer(3, 4, GL_FLOAT, false, 0, 0);
-
-            // Joint indices
-            vboId = glGenBuffers();
-            vboIdList.add(vboId);
-            jointIndicesBuffer = MemoryUtil.memAllocInt(jointIndices.length);
-            jointIndicesBuffer.put(jointIndices).flip();
-            glBindBuffer(GL_ARRAY_BUFFER, vboId);
-            glBufferData(GL_ARRAY_BUFFER, jointIndicesBuffer, GL_STATIC_DRAW);
-            glEnableVertexAttribArray(4);
-            glVertexAttribPointer(4, 4, GL_FLOAT, false, 0, 0);
-
             // Index VBO
             vboId = glGenBuffers();
             vboIdList.add(vboId);
@@ -140,12 +114,6 @@ public class Mesh {
             }
             if (vecNormalsBuffer != null) {
                 MemoryUtil.memFree(vecNormalsBuffer);
-            }
-            if (weightsBuffer != null) {
-                MemoryUtil.memFree(weightsBuffer);
-            }
-            if (jointIndicesBuffer != null) {
-                MemoryUtil.memFree(jointIndicesBuffer);
             }
             if (indicesBuffer != null) {
                 MemoryUtil.memFree(indicesBuffer);

@@ -10,7 +10,7 @@ public class Main {
             boolean vSync = true;
             IGameLogic gameLogic = new Game();
             Window.WindowOptions opts = new Window.WindowOptions();
-            opts.cullFace = false;
+            opts.cullFace = true;
             opts.showFps = true;
             opts.compatibleProfile = true;
             opts.antialiasing = true;

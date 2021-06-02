@@ -97,7 +97,7 @@ public class Game implements IGameLogic {
         float minY = -0.1f;
         float maxY = 0.1f;
         int textInc = 40;
-        terrain = new Terrain(terrainSize, terrainScale, minY, maxY, "textures/heightmap2.png", "textures/terrain.png", textInc);
+        terrain = new Terrain(terrainSize, terrainScale, minY, maxY, "textures/heightmap2.png", "textures/grass.png", textInc);
         scene.setGameItems(terrain.getGameItems());
 
         float reflectance = 1f;
@@ -135,8 +135,8 @@ public class Game implements IGameLogic {
         // trees
         float blockScale = 0.3f;
 
-        Mesh mesh = OBJLoader.loadMesh("/models/tree.obj", treeCount);
-        Texture texture = new Texture("textures/grassblock.png");
+        Mesh mesh = OBJLoader.loadMesh("/models/tree2.obj", treeCount);
+        Texture texture = new Texture("textures/terrain.png");
         Material material = new Material(texture, reflectance);
         mesh.setMaterial(material);
 
@@ -146,7 +146,7 @@ public class Game implements IGameLogic {
                 gameItem.setScale(blockScale);
                 gameItem.setPosition(i, 1, j);
                 float newY = terrain.getHeight(gameItem.getPosition());
-                gameItem.setPosition(i, newY + 0.2f, j);
+                gameItem.setPosition(i, newY, j);
                 gameItems[index] = gameItem;
                 index++;
             }
